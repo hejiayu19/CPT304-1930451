@@ -16,21 +16,34 @@ Mock.mock('/api/country', 'get', {
     ]
 })
 
-Mock.mock('/api/area', 'get', {
-    "status": 200,
-    "content|5": [() => generateData()]
+Mock.mock('/api/area', 'post', (option) => {
+    const result = {
+        status: 200,
+        content: []
+    }
+    for (var i = 1; i <= 5; i++) {
+        result.content.push(generateData())
+    }
+    return result
+
 })
 
 //查询所有
-Mock.mock('/api/holidays/info', 'get', {
-    "status": 200,
-    "content|10": [{
-        "id|+1": 1,
-        "name": "@name",
-        "startDate": "@datetime()",
-        "endDate": "@datetime()",
-        "days|1-10": 1
-    }]
+Mock.mock('/api/holidays/info', 'post', (option) => {
+    const result = {
+        status: 200,
+        content: []
+    }
+    for (var i = 1; i <= 10; i++) {
+        result.content.push(Mock.mock({
+            "id|+1": 1,
+            "name": "@name",
+            "startDate": "@datetime()",
+            "endDate": "@datetime()",
+            "days|1-10": 1
+        }))
+    }
+    return result
 })
 
 Mock.mock('/api/holidays/weather', 'post', (option) => {

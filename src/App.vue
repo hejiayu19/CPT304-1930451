@@ -68,7 +68,7 @@ export default {
     async getHolidaysInfo() {
       const {
         data: { status, content },
-      } = await this.$http("/api/holidays/info");
+      } = await this.$http.post("/api/holidays/info", this.form);
       if (status === 200) {
         this.holidaysList = content;
         this.getWeatherByHoliday();

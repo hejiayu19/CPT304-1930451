@@ -44,8 +44,14 @@ export default {
     };
   },
   mounted() {
-    this.getAreaData();
     this.getCountry();
+  },
+  watch: {
+    "form.country": {
+      handler() {
+        this.getAreaData();
+      },
+    },
   },
   methods: {
     handleAreaChange(value) {
@@ -57,7 +63,10 @@ export default {
     async getAreaData() {
       const {
         data: { status, content },
-      } = await this.$http("/api/area");
+      } = await this.$http.post(
+        "/api/area",
+        this.countryData[this.form.country]
+      );
       if (status === 200) {
         this.areaData = content;
       }
@@ -68,6 +77,7 @@ export default {
       } = await this.$http("/api/country");
       if (status === 200) {
         this.countryData = content;
+        this.getAreaData();
       }
     },
   },
